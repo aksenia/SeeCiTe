@@ -201,7 +201,7 @@ plotRawTrio(input_data = candidateCnvs %>% dplyr::filter(sample==Sample, coordcn
             merge_trace = main_dt[["merge"]] %>% dplyr::filter(sample==Sample, coordcnv==Cnv))
 ```
 
-![](/private/var/folders/vk/5413ngts2n3byxxztgt4mtrr0000gn/T/RtmpEcqMc7/preview-836d3bf5ba9.dir/README_files/figure-markdown_github/step-v-indiv-plot-1.png)
+![](man/figures/step-v-indiv-plot-1.png)
 
 This will write a pdf file with such plots per SeeCiTe category:
 
