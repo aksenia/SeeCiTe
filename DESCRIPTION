@@ -1,9 +1,34 @@
-Package: cnvcheck
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.4.3)
-License: What license is it under?
+Package: SeeCiTe
+Title: Assess the quality of and visualize array CNV callset for trios
+Version: 0.0.1
+Authors@R: person("Ksenia", "Lavrichenko", email = "ksenia.lavrichenko@gmail.com", role = c("aut", "cre"))
+Description: False Positives and low quality CNV calls plague many of the array-based datasets. 
+  Using the raw signal data and a CNV call file (made with PennCNV trio), 
+  this package assesses the quality of calls made. In addition it allows to visualize calls in an informed way.
+Depends:
+  R (>= 3.4.3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: magrittr,
+    dplyr,
+    tidyr,
+    tools,
+    purrr,
+    utils,
+    bedr,
+    ggplot2,
+    ggpubr,
+    scales,
+    rlang,
+    gridExtra,
+    cowplot,
+    outliers,
+    effsize,
+    lawstat,
+    statip,
+    ks,
+    rogme
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.0.1

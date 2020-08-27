@@ -1,0 +1,140 @@
+---
+title: "Seeing CNVs in Trios (SeeCiTe)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette describes all steps necessary to run SeeCiTe analysis, using the public HapMap trio data, with intermidiate outputs supplied with the package. 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning=FALSE,
+  comment = "#"
+)
+```
+
+
+```{r load, echo=FALSE, results = 'hide'}
+
+## did not work without building
+#devtools::build()
+# devtools::install(dependencies = F)
+library(SeeCiTe)
+devtools::load_all()
+```
+
+## Step I. Preparing the input files.
+
+The preparation step takes in 1) an original PennCNV-trio output (produced by running PennCNV's detect_cnv.pl with the -trio flag) and 2) merged and/or filtered by frequency and size file in a standard PennCNV format (PennCNV's clean_cnv.pl will do the segment merging automatically and output a file in such format). The merged file defines the CNVs to analyse in terms of boundaries and loci covered, e.g. all CNVs that are in the first file but do not overlap with the CNVs in the second file will be ignored.
+
+The function *runExtractInheritance* will take these two input files and produce additional intermediate files, necessary for consequent steps, shown below, with the prefix of the merged file: 
+
+```{r step-i-write, echo=TRUE, message=FALSE, warning=FALSE, results = 'hide'}
+library(SeeCiTe)
+# PennCNV-trio output
+file_original <- system.file("extdata", "affy6ceu.original.triocnv", package = "SeeCiTe")
+# PennCNV merge output
+file_merged <- system.file("extdata", "affy6ceu.merged.filtered.triocnv", package = "SeeCiTe")
+# Input files for SeeCiTe
+input_files <- runExtractInheritance(filename_orig = file_original, filename_merged = file_merged)
+```
+The input files now contain CNVs to analyse for each offspring and inheritance, decoded from PennCNV-trio HMM state. The merging log is also created to keep track whether a CNV was merged and if so, how many segments were merged. 
+
+```{r step-i-makecmd, echo=TRUE, message=FALSE, warning=FALSE}
+print(input_files)
+dir <- dirname(file_original)
+# Intermidiate files for the reference of inheritance mapping.
+list.files(dir, pattern = tools::file_path_sans_ext(basename(file_merged)), full.names = F)
+```
+## Step II. Prepare and extract SNP data. 
+
+For the extraction of the SNP-level data for each individual in a trio the following inputs are needed: 1) PFB file (same file with probe coordinates used when running PennCNV); 2) full path to PennCNV installation; 3) File with paths to LRR and BAF signal files in a tab-separated format in the order father, mother, offspring (same as in PennCNV-trio); 4) A parameter setting how many probes in flanks to extract; 5) dataset name - it must be consistent and will be used for file naming throughout the project; 6) full path to the directory in which the extracted SNP data will be stored, for each CNV (must be created in advance). 
+
+```{r step-ii,echo=TRUE, message=FALSE, warning=FALSE}
+pfb_file <- file.path("~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb")
+penn_path <- "~/local/PennCNV1.0.4"
+penn_trio_list <- file.path("~/Documents/uib/dev/toydata/affy6hm_trio.tab")
+n_flanking_snp <- 5
+run_dir <- "~/Documents/uib/dev/toydata/dev"
+
+commands <- makePythonCommands(penn_path=penn_path, 
+                               pfb_file=pfb_file, 
+                               penn_trio_list=penn_trio_list, 
+                               triocnv_file=input_files[["triocnv_file"]],
+                               n_flanking_snp=5, 
+                               dataset="affy6ceu", 
+                               run_dir=run_dir)
+print(commands)
+```
+
+The result will be two script files with one line per CNV with a command for PennCNV infer_snp_allele.pl that will do the extraction, terminating by lines that collect the data into one table for the whole cohort. This must be run by the user. For large cohorts one can split the commands into batches or submit to a cluster.  
+
+## Step III. Gather and read in all input.
+
+The previous step extracts SNP data into files in the provided *run_dir*: files with prefix *probecoord.txt*, *snp_flank.txt* and *snp_cnv.log*. The main CNV file is *triocnv_file* in *input_data* object, while *merge_trace* is the merging log in the same object. Finally, *cnv_qcsum_file* is the QC summary output of PennCNV. The *cache_id* tells where R should store cache for core calculations. 
+```{r step-iii}
+args <- list(triocnv_file=input_files[["triocnv_file"]],
+             probecoord_file=system.file("extdata", "affy6ceu.probecoord.txt", package = "SeeCiTe"),
+             snp_flank_file=system.file("extdata", "affy6ceu.snp_flank.txt", package = "SeeCiTe"),
+             snp_cnv_log_file=system.file("extdata", "affy6ceu.snp_cnv.log", package = "SeeCiTe"),
+             cnv_qcsum_file=system.file("extdata", "affy6ceu.qcsum", package = "SeeCiTe"),
+             dataset="affy6ceu",
+             cache_id="~/Documents/uib/dev/toydata",
+             merge_trace=input_files[["merge_trace"]])
+```
+
+Now all inputs are in order and can be read and formatted: 
+```{r step-iii-input, warning=FALSE}
+main_dt <- readInputs(args = args)
+candidateCnvs <- main_dt[["data"]]
+```
+
+## Step IV. Run SeeCiTe classification.
+
+First, a summary statistic collection step, for each CNV in offspring:
+```{r step-iv-prepare, echo=TRUE, warning=FALSE}
+clu_baf <- runAnalyzeSignal(input_data = candidateCnvs, args = args, use_cache = T)
+head(clu_baf[,c(1:4)], n=3)
+```
+
+
+The clasification is the final step in the analysis which annotates each CNV with suggested inheritance and SeeCiTe quality class. 
+```{r step-iv-classify, echo=TRUE, warning=FALSE}
+cnv_class <- classifyTrios(clu_baf)
+with(cnv_class, table(seecite, inheritanceTest))
+```
+
+## Step V.  Visualize and write summary files.
+
+The results can be visualized either for each single CNV region or for a whole cohort: 
+```{r step-v-indiv-plot, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, fig.width=12, fig.height=5.5, fig.fullwidth=TRUE}
+Sample <- "affy6.scale.NA12878"
+Cnv <- "chr19:20596206-20716389"
+plotRawTrio(input_data = candidateCnvs %>% dplyr::filter(sample==Sample, coordcnv==Cnv), 
+            sifted_data = clu_baf %>% dplyr::filter(sample==Sample, coordcnv==Cnv), 
+            penn_qcsum = main_dt[["qcsum"]] %>% dplyr::filter(sample==Sample),
+            merge_trace = main_dt[["merge"]] %>% dplyr::filter(sample==Sample, coordcnv==Cnv))
+```
+
+
+This will write a pdf file with such plots per SeeCiTe category:
+```{r step-v-plot, eval=FALSE, echo=TRUE}
+plotCohort(main_data=main_dt,
+           sifted_data=clu_baf,
+           classified_data=cnv_class,
+           output_dir = "~/Documents/uib/dev/toydata/affy6ceu_viz",
+           dataset="affy6ceu",
+           subset_nprobes=20,
+           subset_length=150000)
+
+```
+
+Finally, the summary statistics and SeeCiTe classifications can be written out as plain text files, together with bed (UCSC 6-column style) and plink formatted CNV regions:
+```{r step-v-write, eval=FALSE, echo=TRUE}
+writeSeecite(classified_data=cnv_class,
+          output_dir = "~/Documents/uib/dev/toydata/affy6ceu_viz",
+          dataset="affy6ceu")
+```
