@@ -3,7 +3,7 @@
 #' @param lrr_flank_pass A cutoff on the LRR_SD in flanking region that defines placement of putative de novo CNVs into Unlikely category for more detailed examination
 #'
 #' @return A data table with most useful statistics per individual in a trio and classification results for an offspring CNV
-#'
+#' @export
 #' @examples
 classifyTrios <- function(analyzed_df, lrr_flank_pass=0.2){
   prepare_dt <- prepareClass(analyzed_df)

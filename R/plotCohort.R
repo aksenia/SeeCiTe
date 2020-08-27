@@ -10,6 +10,7 @@
 #' @param subset_nprobes Only plot the CNVs containing that many or more probes
 #' @param subset_length Only plot the CNVs of the given legth (in bp) or longer
 #' @return
+#' @export
 #'
 #' @examples
 plotCohort <- function(main_data, sifted_data, classified_data, output_dir, dataset, mono_marker=T, subset_nprobes=NULL, subset_length=NULL){

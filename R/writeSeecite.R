@@ -4,7 +4,8 @@
 #' @param output_dir output_dir Folder in which to write the files.
 #' @param dataset dataset Dataset string to use in file naming.
 #' @return No value returned. Writes files into a given folder.
-#'
+
+#' @export
 #' @examples
 writeSeecite <- function(classified_data, output_dir, dataset){
   dir.create(output_dir, showWarnings = FALSE)

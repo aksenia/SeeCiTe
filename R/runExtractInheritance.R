@@ -5,7 +5,7 @@
 #'
 #' @return  Returns paths to and writes files with status of inheritance, one of "denovo"/"inherited"/"ambiguous" for offspring and "call_in_parent" for parents (with and without parental data),
 #' as well as file with no inheritance information for further merging. In case if no merging is planned, a log file with original PennCNV trio states is also written for further in the pipeline.
-#'
+#' @export
 #' @examples
 runExtractInheritance <- function(filename_orig, filename_merged){
   orig_dt <- readPennTrioOriginal(filename = filename_orig)

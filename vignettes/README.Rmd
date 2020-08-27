@@ -1,10 +1,8 @@
 ---
 title: "Seeing CNVs in Trios (SeeCiTe)"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{introduction}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 This vignette describes all steps necessary to run SeeCiTe analysis, using the public HapMap trio data, with intermidiate outputs supplied with the package. 

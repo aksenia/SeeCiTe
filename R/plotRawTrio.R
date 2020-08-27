@@ -7,6 +7,7 @@
 #' @param mono_marker (TRUE/FALSE) If the array contains non-polymorphic markers with BAF>1, do not plot these. TRUE by default.
 #' @param merge_trace Table in a custom format with original PennCNV trio status and merging statistics.
 #' @return A ggplot2 plot object
+#' @export
 #'
 #' @examples
 plotRawTrio <- function(input_data, sifted_data, print_title=TRUE, penn_qcsum=NULL, mono_marker=TRUE, merge_trace=NULL) {

@@ -4,7 +4,7 @@
 #' @param args Global arguments for the dataset analysis run.
 #' @param use_cache Use pre-calculated object from previous runs which is written every time the function is run into the folder defined by "cache_id" in args. This analysis takes a while on a large dataset. If it is necessary to re-run from scratch set this argument to FALSE. Default is FALSE.
 #' @return A data table with SeeCiTe preparation analysis for all trios and CNVs in the input.
-#'
+#' @export
 #' @examples
 runAnalyzeSignal <- function(input_data, args, use_cache=FALSE){
   cache_fn <- file.path(args[["cache_id"]], paste(args[["dataset"]], "_clu_baf", ".rds", sep = ""))
