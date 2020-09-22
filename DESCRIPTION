@@ -29,6 +29,7 @@ Imports: magrittr,
     statip,
     ks,
     rogme
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, rogme
+Additional_repositories: https://github.com/GRousselet/rogme
 VignetteBuilder: knitr
 RoxygenNote: 7.0.1
