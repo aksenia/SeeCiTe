@@ -1,5 +1,5 @@
 This vignette describes all steps necessary to run SeeCiTe analysis,
-using the public HapMap trio data, with intermidiate outputs supplied
+using the public HapMap trio data, with intermediate outputs supplied
 with the package.
 
 Installation.
@@ -8,20 +8,22 @@ Installation.
 Make sure the dependencies are installed fist:
 
 ``` r
-generic_packages <- c("magrittr", "dplyr", "tidyr", "tools", "purrr", "utils", "rlang", "bedr")
-plotting_packages <- c("ggplot2", "scales", "gridExtra", "cowplot", "rogme", "ggpubr")
+generic_packages <- c("magrittr", "dplyr", "tidyr", "tools", "purrr", "utils", "rlang", "devtools")
+plotting_packages <- c("ggplot2", "scales", "gridExtra", "cowplot", "ggpubr")
 stat_packages <- c("statip", "outliers", "effsize", "lawstat", "ks")
 packages <- c(generic_packages, plotting_packages, stat_packages)
 
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
+library(devtools)
+devtools::install_github('davetang/bedr')
+devtools::install_github("GRousselet/rogme")
 ```
 
 Then use devtools package to install directly from GitHub:
 
 ``` r
-library(devtools)
 devtools::install_github("aksenia/SeeCiTe")
 ```
 
@@ -66,7 +68,7 @@ print(input_files)
 # $merge_trace
 # [1] "/Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
 dir <- dirname(file_original)
-# Intermidiate files for the reference of inheritance mapping.
+# Intermediate files for the reference of inheritance mapping.
 list.files(dir, pattern = tools::file_path_sans_ext(basename(file_merged)), full.names = F)
 # [1] "affy6ceu.merged.filtered_annot_offspring.triocnv"
 # [2] "affy6ceu.merged.filtered_annot.triocnv"          
