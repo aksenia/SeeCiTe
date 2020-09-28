@@ -167,12 +167,12 @@ First, a summary statistic collection step, for each CNV in offspring:
 clu_baf <- runAnalyzeSignal(input_data = candidateCnvs, args = args, use_cache = T)
 # [1] "Found cached file ~/Documents/uib/dev/toydata/affy6ceu_clu_baf.rds, reading in"
 head(clu_baf %>% dplyr::select(coordcnv, sample, relation, matches("test$", ignore.case = F)), n=3)
-# # A tibble: 3 x 4
-#   cnvTypeBAF    relation nprobes33_66 nprobes_cn4
-#   <chr>         <chr>           <int>       <int>
-# 1 F:possiblyLOH F                   0           0
-# 2 M:possiblyLOH M                   0           0
-# 3 O:possiblyLOH O                   0           0
+# # A tibble: 3 x 7
+# coordcnv                 sample              relation flanktest baftest   lrrtest lrrmedtest   # <chr>                    <chr>               <chr>    <chr>     <chr>     <chr>   <chr>       
+# 1 chr1:72768418-72811148   affy6.scale.NA12878 F        Fflank    FMO       MO      cnv_less_flank
+# 2 chr1:72768418-72811148   affy6.scale.NA12878 M        Mflank    FMO       MO      cnv_less_flank
+# 3 chr1:72768418-72811148   affy6.scale.NA12878 O        Oflank    FMO       MO      cnv_less_flank
+
 ```
 
 The clasification is the final step in the analysis which annotates each
