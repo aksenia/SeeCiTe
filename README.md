@@ -167,11 +167,11 @@ First, a summary statistic collection step, for each CNV in offspring:
 clu_baf <- runAnalyzeSignal(input_data = candidateCnvs, args = args, use_cache = T)
 # [1] "Found cached file ~/Documents/uib/dev/toydata/affy6ceu_clu_baf.rds, reading in"
 head(clu_baf %>% dplyr::select(coordcnv, sample, relation, matches("test$", ignore.case = F)), n=3)
-# # A tibble: 3 x 7
-# coordcnv                 sample              relation flanktest baftest   lrrtest lrrmedtest   # <chr>                    <chr>               <chr>    <chr>     <chr>     <chr>   <chr>       
-# 1 chr1:72768418-72811148   affy6.scale.NA12878 F        Fflank    FMO       MO      cnv_less_flank
-# 2 chr1:72768418-72811148   affy6.scale.NA12878 M        Mflank    FMO       MO      cnv_less_flank
-# 3 chr1:72768418-72811148   affy6.scale.NA12878 O        Oflank    FMO       MO      cnv_less_flank
+# # A tibble: 3 x 6
+# coordcnv                 sample              relation flanktest baftest   lrrtest
+# 1 chr1:72768418-72811148   affy6.scale.NA12878 F        Fflank    FMO       MO
+# 2 chr1:72768418-72811148   affy6.scale.NA12878 M        Mflank    FMO       MO
+# 3 chr1:72768418-72811148   affy6.scale.NA12878 O        Oflank    FMO       MO
 
 ```
 
