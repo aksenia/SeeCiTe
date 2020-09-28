@@ -95,14 +95,14 @@ created in advance).
 pfb_file <- file.path("~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb")
 penn_path <- "~/local/PennCNV1.0.4"
 penn_trio_list <- file.path("~/Documents/uib/dev/toydata/affy6hm_trio.tab")
-n_flanking_snp <- 5
+n_flanking_snp <- 50
 run_dir <- "~/Documents/uib/dev/toydata/dev"
 
 commands <- makePythonCommands(penn_path=penn_path, 
                                pfb_file=pfb_file, 
                                penn_trio_list=penn_trio_list, 
                                triocnv_file=input_files[["triocnv_file"]],
-                               n_flanking_snp=5, 
+                               n_flanking_snp=50, 
                                dataset="affy6ceu", 
                                run_dir=run_dir)
 print(commands)
@@ -166,7 +166,7 @@ First, a summary statistic collection step, for each CNV in offspring:
 ``` r
 clu_baf <- runAnalyzeSignal(input_data = candidateCnvs, args = args, use_cache = T)
 # [1] "Found cached file ~/Documents/uib/dev/toydata/affy6ceu_clu_baf.rds, reading in"
-head(clu_baf[,c(1:4)], n=3)
+head(clu_baf %>% dplyr::select(coordcnv, sample, relation, matches("test$", ignore.case = F)), n=3)
 # # A tibble: 3 x 4
 #   cnvTypeBAF    relation nprobes33_66 nprobes_cn4
 #   <chr>         <chr>           <int>       <int>
