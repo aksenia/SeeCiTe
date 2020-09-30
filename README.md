@@ -226,3 +226,10 @@ writeSeecite(classified_data=cnv_class,
           output_dir = "~/Documents/uib/dev/toydata/affy6ceu_viz",
           dataset="affy6ceu")
 ```
+Credits
+------------------------------------------
+
+If you use this package, please cite 
+"SeeCiTe: a method to assess CNV calls from SNP arrays using trio data", 
+Ksenia Lavrichenko, Øyvind Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson
+bioRxiv 2020.09.28.316372; doi: https://doi.org/10.1101/2020.09.28.316372
