@@ -182,7 +182,7 @@ plotRawTrio <- function(input_data, sifted_data, print_title=TRUE, penn_qcsum=NU
     dplyr::select(relation, BAFprobes) %>%
     dplyr::distinct() %>%
     dplyr::group_by(BAFprobes) %>%
-    dplyr::summarise(rel = paste(relation, collapse = ","), n_mem = n())
+    dplyr::summarise(rel = paste(relation, collapse = ","), n_mem = dplyr::n())
 ####
   # Individual similarity based on LRR and BAF profiles of CNV loci
   ## Pair of individuals similar based on LRR in CNV locus
@@ -222,7 +222,7 @@ plotRawTrio <- function(input_data, sifted_data, print_title=TRUE, penn_qcsum=NU
 
   cnvmarkers <- input_data %>%
     dplyr::filter(locus == "CNV") %>%
-    dplyr::summarise(nmarkers = n_distinct(Name)) %>%
+    dplyr::summarise(nmarkers = dplyr::n_distinct(Name)) %>%
     unlist(use.names = F)
 
   #### merging trace

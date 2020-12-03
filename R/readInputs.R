@@ -110,7 +110,7 @@ readInputs <- function(args){
                   numsnp_M=as.integer(gsub(".*=", "", numsnp_M)),
                   Pval=as.numeric(gsub(".*=", "", Pval))) %>%
       dplyr::group_by(dataset, sample, coordcnv, locus) %>%
-      dplyr::mutate(numsnp = n_distinct(Name)) %>%
+      dplyr::mutate(numsnp = dplyr::n_distinct(Name)) %>%
       dplyr::ungroup())
 
   out <- list(data=candidateCnvsl)
