@@ -4,14 +4,14 @@
 #' @param merged_dt A Table with the result of merging with PennCNV of the original file
 #'
 #' @return A data table with merged sample and CNV ids as well as original tristates and counts of segments merged
-#' @examples 
+#' @examples
 
 mapTriostate <- function(orig_dt, merged_dt){
   # read in the files
   # original data
   orig_list <- with(orig_dt, split(orig_dt, sample))
   orig_list <- lapply(orig_list, function(u) u$coordcnv)
-  # merged data 
+  # merged data
   merged_list <- with(merged_dt, split(merged_dt, sample))
   merged_list <- lapply(merged_list, function(u) u$coordcnv)
   out <- do.call("rbind", lapply(names(merged_list), function(n){
@@ -28,7 +28,7 @@ mapTriostate <- function(orig_dt, merged_dt){
     dplyr::group_by(index, sample) %>%
     dplyr::summarise(tstate=paste0(sort(triostate), collapse="|"),
                      triostate=paste0(sort(triostate), collapse="-"),
-                     mlog=n()) %>%
+                     mlog=dplyr::n()) %>%
     dplyr::rename(coordcnv=index) %>%
     dplyr::arrange(sample, coordcnv)
   out
