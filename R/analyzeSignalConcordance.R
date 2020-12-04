@@ -83,7 +83,7 @@ analyzeSignalConcordance <- function(input_data, cohen_dist=3, sign_lrr_dist=0.0
     dplyr::select(relation, BAFprobes) %>%
     dplyr::distinct() %>%
     dplyr::group_by(BAFprobes) %>%
-    dplyr::summarise(rel = paste(sort(relation), collapse = ","), n_mem = n())
+    dplyr::summarise(rel = paste(sort(relation), collapse = ","), n_mem = dplyr::n())
 
   # In case of coinsiding clustering patterns
   if (sum(clpattn$n_mem > 1) > 0) {
