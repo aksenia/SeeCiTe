@@ -21,10 +21,10 @@ devtools::install_github('davetang/bedr')
 devtools::install_github("GRousselet/rogme")
 ```
 
-Then use devtools package to install directly from GitHub:
+Then use devtools package to install directly from GitHub (by default it will force the upgrade of the installed packages, which might be undesirable, the set dependencies to FALSE):
 
 ``` r
-devtools::install_github("aksenia/SeeCiTe")
+devtools::install_github("aksenia/SeeCiTe", dep=F)
 ```
 
 Step I. Preparing the input files.
@@ -123,8 +123,8 @@ Step III. Gather and read in all input.
 ---------------------------------------
 
 The previous step extracts SNP data into files in the provided
-*run\_dir*: files with prefix *probecoord.txt*, *snp\_flank.txt* and
-*snp\_cnv.log*. The main CNV file is *triocnv\_file* in *input\_data*
+*run\_dir*: files with prefix *probecoord.txt* (in the flanks subfolder), *snp\_flank.txt* (in the flanks subfolder) and
+*snp\_cnv.log* (in the base run folder). The main CNV file is *triocnv\_file* in *input\_data*
 object, while *merge\_trace* is the merging log in the same object.
 Finally, *cnv\_qcsum\_file* is the QC summary output of PennCNV. The
 *cache\_id* tells where R should store cache for core calculations.
@@ -144,17 +144,20 @@ Now all inputs are in order and can be read and formatted:
 
 ``` r
 main_dt <- readInputs(args = args)
-# [1] "Reading merged formatted PennCNV trio file for offspring /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
-# [1] "Reading probes file /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.probecoord.txt"
+# [1] "Reading merged formatted PennCNV trio file for offspring dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
+# [1] "Reading probes file dev/SeeCiTe/inst/extdata/affy6ceu.probecoord.txt"
 # [1] "Collapsing duplicate probes"
 # [1] "Annotating probes in CNV loci"
-# [1] "Reading extracted intensity for flanking regions /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.snp_flank.txt"
+# [1] "Reading extracted intensity for flanking regions dev/SeeCiTe/inst/extdata/affy6ceu.snp_flank.txt"
 # 
 #    denovo inherited 
 #         6        43 
-# [1] "Reading denovo test results for CNV regions /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
-# [1] "Reading quality summary file /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.qcsum"
-# [1] "Reading merging log file /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
+# [1] "Reading denovo test results for CNV regions 
+dev/SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
+# [1] "Reading quality summary file 
+dev/SeeCiTe/inst/extdata/affy6ceu.qcsum"
+# [1] "Reading merging log file 
+dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
 candidateCnvs <- main_dt[["data"]]
 ```
 
