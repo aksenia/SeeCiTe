@@ -21,7 +21,7 @@ devtools::install_github('davetang/bedr')
 devtools::install_github("GRousselet/rogme")
 ```
 
-Then use devtools package to install directly from GitHub (by default it will force the upgrade of the installed packages, which might be undesirable, the set dependencies to FALSE):
+Then use devtools package to install directly from GitHub (by default it will force the upgrade of the installed packages, which might be undesirable, then set dependencies to FALSE):
 
 ``` r
 devtools::install_github("aksenia/SeeCiTe", dep=F)
@@ -152,12 +152,9 @@ main_dt <- readInputs(args = args)
 # 
 #    denovo inherited 
 #         6        43 
-# [1] "Reading denovo test results for CNV regions 
-dev/SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
-# [1] "Reading quality summary file 
-dev/SeeCiTe/inst/extdata/affy6ceu.qcsum"
-# [1] "Reading merging log file 
-dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
+# [1] "Reading denovo test results for CNV regions dev/SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
+# [1] "Reading quality summary file dev/SeeCiTe/inst/extdata/affy6ceu.qcsum"
+# [1] "Reading merging log file dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
 candidateCnvs <- main_dt[["data"]]
 ```
 
