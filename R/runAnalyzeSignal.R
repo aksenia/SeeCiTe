@@ -3,10 +3,11 @@
 #' @param input_data The input data table ("data") collated with readInputs.
 #' @param args Global arguments for the dataset analysis run.
 #' @param use_cache Use pre-calculated object from previous runs which is written every time the function is run into the folder defined by "cache_id" in args. This analysis takes a while on a large dataset. If it is necessary to re-run from scratch set this argument to FALSE. Default is FALSE.
+#' @param single Use simplified single samples mode instead of a trio.
 #' @return A data table with SeeCiTe preparation analysis for all trios and CNVs in the input.
 #' @export
 #' @examples
-runAnalyzeSignal <- function(input_data, args, use_cache=FALSE){
+runAnalyzeSignal <- function(input_data, args, use_cache=FALSE, single=FALSE){
   cache_fn <- file.path(args[["cache_id"]], paste(args[["dataset"]], "_clu_baf", ".rds", sep = ""))
   if (use_cache ==TRUE && file.exists(cache_fn)) {
     print(paste0("Found cached file ", cache_fn, ", reading in"))
@@ -27,7 +28,11 @@ runAnalyzeSignal <- function(input_data, args, use_cache=FALSE){
                           ## original data
                           sdfa <- dfa %>%
                             dplyr::filter(sample == s)
-                            asdfa <- analyzeSignalConcordance(sdfa)
+                            if(single == TRUE){
+                              asdfa <- analyzeSignalConcordanceSingle(sdfa)
+                            } else {
+                              asdfa <- analyzeSignalConcordance(sdfa)
+                            }
                             })
                         r <- do.call("rbind", ss)
                    }))

@@ -190,7 +190,7 @@ plotRawTrio <- function(input_data, sifted_data, print_title=TRUE, penn_qcsum=NU
   ## Each individual has a different BAF pattern
   if (sum(ptn$n_mem > 1) == 0) {
     bafset <- ptn$rel
-    bafpb <- (ptn %>% filter(rel %in% lrrset))$BAFprobes
+    bafpb <- (ptn %>% dplyr::filter(rel %in% lrrset))$BAFprobes
     msg <- ifelse(length(intersect(bafset, lrrset))>1,
                   ifelse(sum(grepl("possiblyLOH", bafpb))>0,
                                paste("LRR shows similarity for", pr, "with consistent BAF"),
