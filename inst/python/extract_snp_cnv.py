@@ -79,6 +79,10 @@ def parseExtractedOutput(args):
   outd=args['out'] + "/"
   out=outd + args['dataset'] + '.snp_cnv.txt'
   outlog=outd + args['dataset'] + '.snp_cnvLOG.txt'
+  cmd_lines.append('if [  -f  ' + out + ' ]; then')
+  cmd_lines.append('echo "File ' + out + ' exists. Removing the file!" ')
+  cmd_lines.append('rm ' + out + ';')
+  cmd_lines.append('fi')
   cmd_lines.append('touch ' + out)
   cmd_lines.append('for f in $(find ' + outd + args['dataset']+ '*.out | grep -v runcommands | grep -v log | grep -v snp_cnv); do')
   cmd_lines.append('b=$(basename ${f});')
@@ -91,7 +95,6 @@ def parseExtractedOutput(args):
   cmd_lines.append('cat $f | grep "vidence" | awk -v x=$px -v OFS=\',\' \'{print $0, x}\'  >> ' + outlog + ';done')
   cmd_lines.append('rm ' + outd + '*.out')
   cmd_lines.append('rm ' + outd + '*.log')
-  cmd_lines.append('awk \'NR==FNR{id[$1]; next} $1 in id\' <(cut -f1 ' + out + ') ' + args['pfb'] + ' > ' + outd + args['dataset'] + '_probecoord.txt')
   return(cmd_lines)
 
 
