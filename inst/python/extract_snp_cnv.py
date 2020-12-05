@@ -79,6 +79,7 @@ def parseExtractedOutput(args):
   outd=args['out'] + "/"
   out=outd + args['dataset'] + '.snp_cnv.txt'
   outlog=outd + args['dataset'] + '.snp_cnvLOG.txt'
+  cmd_lines.append('##############################')
   cmd_lines.append('if [  -f  ' + out + ' ]; then')
   cmd_lines.append('echo "File ' + out + ' exists. Removing the file!" ')
   cmd_lines.append('rm ' + out + ';')
@@ -88,6 +89,7 @@ def parseExtractedOutput(args):
   cmd_lines.append('b=$(basename ${f});')
   cmd_lines.append('pf=${b%.*};')
   cmd_lines.append('awk -v x=$pf \'NR==1{next}{print $0, x}\' $f >> ' + out + ';done')
+  cmd_lines.append('##############################')
   cmd_lines.append('if [  -f  ' + outlog + ' ]; then')
   cmd_lines.append('echo "File ' + outlog + ' exists. Removing the file!" ')
   cmd_lines.append('rm ' + outlog + ';')
@@ -97,6 +99,7 @@ def parseExtractedOutput(args):
   cmd_lines.append('b=$(basename ${f});')
   cmd_lines.append('px=${b%.*};')
   cmd_lines.append('cat $f | grep "vidence" | awk -v x=$px -v OFS=\',\' \'{print $0, x}\'  >> ' + outlog + ';done')
+  cmd_lines.append('##############################')
   cmd_lines.append('# uncomment for clean up')
   cmd_lines.append('#rm ' + outd + '*.out')
   cmd_lines.append('#rm ' + outd + '*.log')
