@@ -82,7 +82,7 @@ def parseExtractedOutput(args):
   cmd_lines.append('touch ' + out)
   cmd_lines.append('for f in $(find ' + outd + args['dataset']+ '*.out | grep -v runcommands | grep -v log | grep -v snp_cnv); do')
   cmd_lines.append('b=$(basename ${f});')
-  cmd_lines.append('pf=$\{b%.*\};')
+  cmd_lines.append('pf=${b%.*};')
   cmd_lines.append('awk -v x=$pf \'NR==1{next}{print $0, x}\' $f >> ' + out + ';done')
   cmd_lines.append('touch ' + outlog)
   cmd_lines.append('for f in $(find ' + outd + args['dataset']+ '*.log | grep log | grep -v snp_cnv); do')
