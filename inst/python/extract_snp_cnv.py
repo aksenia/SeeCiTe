@@ -81,8 +81,8 @@ def parseExtractedOutput(args):
   outlog=outd + args['dataset'] + '.snp_cnvLOG.txt'
   cmd_lines.append('##############################')
   cmd_lines.append('if [  -f  ' + out + ' ]; then')
-  cmd_lines.append('echo "File ' + out + ' exists. Removing the file!" ')
-  cmd_lines.append('rm ' + out + ';')
+  cmd_lines.append('echo "File ' + out + ' exists. Creating the new file (remove the old one manually)!" ')
+  cmd_lines.append('mv ' + out + ' ' + out + '.old;')
   cmd_lines.append('fi')
   cmd_lines.append('touch ' + out)
   cmd_lines.append('for f in $(find ' + outd + args['dataset']+ '*.out | grep -v runcommands | grep -v log | grep -v snp_cnv); do')
@@ -91,8 +91,8 @@ def parseExtractedOutput(args):
   cmd_lines.append('awk -v x=$pf \'NR==1{next}{print $0, x}\' $f >> ' + out + ';done')
   cmd_lines.append('##############################')
   cmd_lines.append('if [  -f  ' + outlog + ' ]; then')
-  cmd_lines.append('echo "File ' + outlog + ' exists. Removing the file!" ')
-  cmd_lines.append('rm ' + outlog + ';')
+  cmd_lines.append('echo "File ' + outlog + ' exists. Creating the new file (remove the old one manually)!" ')
+  cmd_lines.append('mv ' + outlog + ' ' + outlog + '.old;')
   cmd_lines.append('fi')
   cmd_lines.append('touch ' + outlog)
   cmd_lines.append('for f in $(find ' + outd + args['dataset']+ '*.log | grep log | grep -v snp_cnv); do')
@@ -101,8 +101,8 @@ def parseExtractedOutput(args):
   cmd_lines.append('cat $f | grep "vidence" | awk -v x=$px -v OFS=\',\' \'{print $0, x}\'  >> ' + outlog + ';done')
   cmd_lines.append('##############################')
   cmd_lines.append('# uncomment for clean up')
-  cmd_lines.append('#rm ' + outd + '*.out')
-  cmd_lines.append('#rm ' + outd + '*.log')
+  cmd_lines.append('# rm ' + outd + '*.out')
+  cmd_lines.append('# rm ' + outd + '*.log')
   return(cmd_lines)
 
 

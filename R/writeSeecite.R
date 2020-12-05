@@ -10,7 +10,7 @@
 writeSeecite <- function(classified_data, output_dir, dataset){
   dir.create(output_dir, showWarnings = FALSE)
   classified_data <- classified_data %>%
-    tidyr::unite(prefix, siftt, param, sep=".", remove=F)
+    tidyr::unite(prefix, seecite, param, sep=".", remove=F)
   l_class <- with(classified_data , split(classified_data, prefix))
 
 

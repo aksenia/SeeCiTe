@@ -18,7 +18,7 @@ plotCohort <- function(main_data, sifted_data, classified_data, output_dir, data
   dir.create(output_dir, showWarnings = FALSE)
   data_calls <- main_data[["data"]]
   classified_data <- classified_data %>%
-    tidyr::unite(prefix, siftt, param, sep=".", remove=F)
+    tidyr::unite(prefix, seecite, param, sep=".", remove=F)
   if (!is.null(subset_nprobes)) {
     sifted_data <- sifted_data %>%
       dplyr::filter(numsnp>=subset_nprobes)
