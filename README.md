@@ -1,3 +1,6 @@
+SeeCiTe: Seeing CNVs in Trios
+-----------------------------
+
 This vignette describes all steps necessary to run SeeCiTe analysis,
 using the public HapMap trio data, with intermidiate outputs supplied
 with the package.
