@@ -9,7 +9,6 @@ It uses predefined project structure and filenames
 import json
 import sys
 import os
-import subprocess
 import argparse
 import re
 
@@ -128,7 +127,7 @@ def readPenn(penn_file):
 
   indivs = defaultdict(list)
   for line in dcnvs:
-      s=line.strip().split(' ')
+      s=line.strip().split('\t')
       s[:] = [item for item in s if item != '']
       indivs[s[4]].append(s)
   cnvs = defaultdict(list)
@@ -169,10 +168,14 @@ def extractSNPdata(cnv_dict, signal_file, flank):
     for p in pfb[chrom]:
       chrarr[p[2]] = p
     individual = l[4]
+    copynum = re.sub('.*=', '', l[3])
+    numsnp = re.sub('.*=', '', l[1])
     print("Individual " + individual + " CNV " + k)
     r = getFlankingProbes(chr_array=chrarr, start=cnvstart, end=cnvend, flank=flank)
     r['coordcnv'] = k
     r['sample'] = individual
+    r['copynumber'] = copynum
+    r['numsnp'] = numsnp
     cnvs.append(r)
   result = pd.concat(cnvs)
   return(result)

@@ -1,0 +1,2 @@
+affy6.scale.NA12878,data/affy6.scale.NA12878
+affy6.shelf.NA12892,data/affy6.shelf.NA12892
