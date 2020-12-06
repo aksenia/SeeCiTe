@@ -3,12 +3,23 @@
 #' @param classified_data classified_data A table with final classifications, offspring-centered. Output of classifyTrios.
 #' @param output_dir output_dir Folder in which to write the files.
 #' @param dataset dataset Dataset string to use in file naming.
+#' @param subset_nprobes Only output the CNVs containing that many or more probes
+#' @param subset_length Only output the CNVs of the given legth (in bp) or longer
+
 #' @return No value returned. Writes files into a given folder.
 
 #' @export
 #' @examples
-writeSeecite <- function(classified_data, output_dir, dataset){
+writeSeecite <- function(classified_data, output_dir, dataset, subset_nprobes=NULL, subset_length=NULL){
   dir.create(output_dir, showWarnings = FALSE)
+  if (!is.null(subset_nprobes)) {
+    classified_data <- classified_data %>%
+      dplyr::filter(numsnp >= subset_nprobes)
+  }
+  if (!is.null(subset_length)) {
+    classified_data <- classified_data %>%
+      dplyr::filter(length >= subset_length)
+  }
   classified_data <- classified_data %>%
     tidyr::unite(prefix, seecite, param, sep=".", remove=F)
   l_class <- with(classified_data , split(classified_data, prefix))

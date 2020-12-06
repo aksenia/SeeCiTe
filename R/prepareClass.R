@@ -46,6 +46,7 @@ prepareClass <- function(analyzed_df){
                      copynumber=unique(copynumber),
                      parental_orig=unique(parental_orig),
                      numsnp=unique(numsnp),
+                     length=unique(length),
                      status=unique(status),
                      countBafTypeDisagrP = sum(!grepl("agreeNormal|LOH", unique(BAFprobes[relation!="O"]))),
                      bafTypeDisagrP = paste(unique(BAFprobes[!grepl("agreeNormal|LOH", BAFprobes[relation!="O"])]), collapse=", ")) %>%
