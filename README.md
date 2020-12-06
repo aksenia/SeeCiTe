@@ -1,5 +1,5 @@
 This vignette describes all steps necessary to run SeeCiTe analysis,
-using the public HapMap trio data, with intermediate outputs supplied
+using the public HapMap trio data, with intermidiate outputs supplied
 with the package.
 
 Installation.
@@ -8,23 +8,26 @@ Installation.
 Make sure the dependencies are installed fist:
 
 ``` r
-generic_packages <- c("magrittr", "dplyr", "tidyr", "tools", "purrr", "utils", "rlang", "devtools")
-plotting_packages <- c("ggplot2", "scales", "gridExtra", "cowplot", "ggpubr")
+generic_packages <- c("magrittr", "dplyr", "tidyr", "tools", "purrr", "utils", "rlang", "bedr")
+plotting_packages <- c("ggplot2", "scales", "gridExtra", "cowplot", "rogme", "ggpubr")
 stat_packages <- c("statip", "outliers", "effsize", "lawstat", "ks")
 packages <- c(generic_packages, plotting_packages, stat_packages)
 
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
+
 library(devtools)
 devtools::install_github('davetang/bedr')
 devtools::install_github("GRousselet/rogme")
 ```
 
-Then use devtools package to install directly from GitHub (by default it will force the upgrade of the installed packages, which might be undesirable, then set dependencies to FALSE):
+Use devtools package to install directly from GitHub (by default it will
+force the upgrade of the installed packages, which might be undesirable,
+then set dependencies to FALSE):
 
 ``` r
-devtools::install_github("aksenia/SeeCiTe", dep=F)
+devtools::install_github("aksenia/SeeCiTe", dep = FALSE)
 ```
 
 Step I. Preparing the input files.
@@ -63,18 +66,18 @@ segments were merged.
 ``` r
 print(input_files)
 # $triocnv_file
-# [1] "/Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
+# [1] "SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
 # 
 # $merge_trace
-# [1] "/Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
+# [1] "SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
 dir <- dirname(file_original)
-# Intermediate files for the reference of inheritance mapping.
+# Intermidiate files for the reference of inheritance mapping.
 list.files(dir, pattern = tools::file_path_sans_ext(basename(file_merged)), full.names = F)
-# [1] "affy6ceu.merged.filtered_annot_offspring.triocnv"
+# [1] "affy6ceu.merged.filtered.triocnv"                
 # [2] "affy6ceu.merged.filtered_annot.triocnv"          
-# [3] "affy6ceu.merged.filtered_merge.log"              
-# [4] "affy6ceu.merged.filtered_unmaskedstatus.triocnv" 
-# [5] "affy6ceu.merged.filtered.triocnv"
+# [3] "affy6ceu.merged.filtered_annot_offspring.triocnv"
+# [4] "affy6ceu.merged.filtered_merge.log"              
+# [5] "affy6ceu.merged.filtered_unmaskedstatus.triocnv"
 ```
 
 Step II. Prepare and extract SNP data.
@@ -95,22 +98,22 @@ created in advance).
 pfb_file <- file.path("~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb")
 penn_path <- "~/local/PennCNV1.0.4"
 penn_trio_list <- file.path("~/Documents/uib/dev/toydata/affy6hm_trio.tab")
-n_flanking_snp <- 50
+n_flanking_snp <- 5
 run_dir <- "~/Documents/uib/dev/toydata/dev"
 
 commands <- makePythonCommands(penn_path=penn_path, 
                                pfb_file=pfb_file, 
                                penn_trio_list=penn_trio_list, 
                                triocnv_file=input_files[["triocnv_file"]],
-                               n_flanking_snp=50, 
+                               n_flanking_snp=5, 
                                dataset="affy6ceu", 
                                run_dir=run_dir)
 print(commands)
 # $cnv
-# [1] "python3 /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/python/extract_snp_cnv.py -l ~/Documents/uib/dev/toydata/affy6hm_trio.tab -c /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv -d affy6ceu -p ~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb -s ~/local/PennCNV1.0.4 -o ~/Documents/uib/dev/toydata/dev"
+# [1] "python3 SeeCiTe/inst/python/extract_snp_cnv.py -l ~/Documents/uib/dev/toydata/affy6hm_trio.tab -c SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv -d affy6ceu -p ~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb -s ~/local/PennCNV1.0.4 -o ~/Documents/uib/dev/toydata/dev"
 # 
 # $flank
-# [1] "python3 /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/python/extract_snp_flanks.py -l ~/Documents/uib/dev/toydata/affy6hm_trio.tab -c /Users/alpaca/Documents/uib/dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv -d affy6ceu -p ~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb -s ~/local/PennCNV1.0.4 -o ~/Documents/uib/dev/toydata/dev -f 5"
+# [1] "python3 SeeCiTe/inst/python/extract_snp_flanks.py -l ~/Documents/uib/dev/toydata/affy6hm_trio.tab -c SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv -d affy6ceu -p ~/Documents/uib/dev/toydata/affygw6.hg19.sorted.pfb -s ~/local/PennCNV1.0.4 -o ~/Documents/uib/dev/toydata/dev -f 5"
 ```
 
 The result will be two script files with one line per CNV with a command
@@ -123,8 +126,8 @@ Step III. Gather and read in all input.
 ---------------------------------------
 
 The previous step extracts SNP data into files in the provided
-*run\_dir*: files with prefix *probecoord.txt* (in the flanks subfolder), *snp\_flank.txt* (in the flanks subfolder) and
-*snp\_cnv.log* (in the base run folder). The main CNV file is *triocnv\_file* in *input\_data*
+*run\_dir*: files with prefix *probecoord.txt*, *snp\_flank.txt* and
+*snp\_cnv.log*. The main CNV file is *triocnv\_file* in *input\_data*
 object, while *merge\_trace* is the merging log in the same object.
 Finally, *cnv\_qcsum\_file* is the QC summary output of PennCNV. The
 *cache\_id* tells where R should store cache for core calculations.
@@ -144,17 +147,17 @@ Now all inputs are in order and can be read and formatted:
 
 ``` r
 main_dt <- readInputs(args = args)
-# [1] "Reading merged formatted PennCNV trio file for offspring dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
-# [1] "Reading probes file dev/SeeCiTe/inst/extdata/affy6ceu.probecoord.txt"
+# [1] "Reading merged formatted PennCNV trio file for offspring SeeCiTe/inst/extdata/affy6ceu.merged.filtered_annot_offspring.triocnv"
+# [1] "Reading probes file SeeCiTe/inst/extdata/affy6ceu.probecoord.txt"
 # [1] "Collapsing duplicate probes"
 # [1] "Annotating probes in CNV loci"
-# [1] "Reading extracted intensity for flanking regions dev/SeeCiTe/inst/extdata/affy6ceu.snp_flank.txt"
+# [1] "Reading extracted intensity for flanking regions SeeCiTe/inst/extdata/affy6ceu.snp_flank.txt"
 # 
 #    denovo inherited 
 #         6        43 
-# [1] "Reading denovo test results for CNV regions dev/SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
-# [1] "Reading quality summary file dev/SeeCiTe/inst/extdata/affy6ceu.qcsum"
-# [1] "Reading merging log file dev/SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
+# [1] "Reading denovo test results for CNV regions SeeCiTe/inst/extdata/affy6ceu.snp_cnv.log"
+# [1] "Reading quality summary file SeeCiTe/inst/extdata/affy6ceu.qcsum"
+# [1] "Reading merging log file SeeCiTe/inst/extdata/affy6ceu.merged.filtered_merge.log"
 candidateCnvs <- main_dt[["data"]]
 ```
 
@@ -166,13 +169,13 @@ First, a summary statistic collection step, for each CNV in offspring:
 ``` r
 clu_baf <- runAnalyzeSignal(input_data = candidateCnvs, args = args, use_cache = T)
 # [1] "Found cached file ~/Documents/uib/dev/toydata/affy6ceu_clu_baf.rds, reading in"
-head(clu_baf %>% dplyr::select(coordcnv, sample, relation, matches("test$", ignore.case = F)), n=3)
-# # A tibble: 3 x 6
-# coordcnv                 sample              relation flanktest baftest   lrrtest
-# 1 chr1:72768418-72811148   affy6.scale.NA12878 F        Fflank    FMO       MO
-# 2 chr1:72768418-72811148   affy6.scale.NA12878 M        Mflank    FMO       MO
-# 3 chr1:72768418-72811148   affy6.scale.NA12878 O        Oflank    FMO       MO
-
+head(clu_baf[,c(1:4)], n=3)
+# # A tibble: 3 x 4
+#   cnvTypeBAF    relation nprobes33_66 nprobes_cn4
+#   <chr>         <chr>           <int>       <int>
+# 1 F:possiblyLOH F                   0           0
+# 2 M:possiblyLOH M                   0           0
+# 3 O:possiblyLOH O                   0           0
 ```
 
 The clasification is the final step in the analysis which annotates each
@@ -226,10 +229,77 @@ writeSeecite(classified_data=cnv_class,
           output_dir = "~/Documents/uib/dev/toydata/affy6ceu_viz",
           dataset="affy6ceu")
 ```
-Credits
-------------------------------------------
 
-If you use this package, please cite 
-"SeeCiTe: a method to assess CNV calls from SNP arrays using trio data", 
-Ksenia Lavrichenko, Øyvind Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson
-bioRxiv 2020.09.28.316372; doi: https://doi.org/10.1101/2020.09.28.316372
+Credits
+-------
+
+If you use this package, please cite “SeeCiTe: a method to assess CNV
+calls from SNP arrays using trio data”, Ksenia Lavrichenko, Øyvind
+Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson bioRxiv
+2020.09.28.316372; doi:
+<a href="https://doi.org/10.1101/2020.09.28.316372" class="uri">https://doi.org/10.1101/2020.09.28.316372</a>
+
+Bonus: single sample functionality
+----------------------------------
+
+The SeeCite core algorithm is based on comparison of intensity
+distributions between the individuals in a trio. However there is a
+number of individual-level metrics that can be useful out of trio
+context. We extended the tool functionality to process the single
+samples data and calculate these metrics. The adapted simplified
+plotting function is also available.
+
+First step is to extract the signal intensities with a helper script
+*extract\_snp\_single.py*, which takes as input PennCNV format and a
+sample map (one line per sample, comma-separated,
+“sampleid,path/to/lrrbaf\_file”):
+
+``` r
+python3 extract_snp_single.py -c data/affy6hm.initial_merged.triocnv -m data/samples_map.txt -o data -d SNGL -f 30
+```
+
+The output file *data/SNGLE.signal\_flanks\_30.txt* (provided with the
+package sample data) will contain all the information needed for
+consequent steps:
+
+``` r
+single_file =  system.file("extdata", "SNGLE.signal_flanks_30.txt", package = "SeeCiTe")
+single_data <- readSingle(snp_file = single_file)
+head(single_data, n = 2)
+# # A tibble: 2 x 13
+#   Name    Chr Position locus coordcnv sample copynumber numsnp relation Origin
+#   <chr> <int>    <int> <chr> <chr>    <chr>       <int>  <int> <chr>    <lgl> 
+# 1 AFFX…     6 32412480 flank chr6:32… affy6…          1     18 O        NA    
+# 2 AFFX…     6 32412480 flank chr6:32… affy6…          1     18 O        NA    
+# # … with 3 more variables: type <chr>, parameter <chr>, value <dbl>
+```
+
+``` r
+
+sclu_baf <- runAnalyzeSignal(single_data, 
+                             args = list(cache_id="~/Documents/uib/dev/toydata",
+                                   dataset="SNGL"), 
+                             single = T,
+                             use_cache = T)
+# [1] "Found cached file ~/Documents/uib/dev/toydata/SNGL_clu_baf.rds, reading in"
+scnv_class <- classifySingles(sclu_baf)
+
+Sample <- "affy6.shelf.NA12892"
+Cnv <- "chr1:72768418-72811148"
+plotSingle(input_data = single_data %>% dplyr::filter(sample==Sample, coordcnv==Cnv),
+           sifted_data = sclu_baf %>% dplyr::filter(sample==Sample, coordcnv==Cnv),
+           print_title = T)
+```
+
+![](man/figures/step-iii-single-1.png)
+
+To write out multiple plots: s
+
+``` r
+plotCohort(main_data=list(data=single_data),
+           sifted_data=sclu_baf,
+           classified_data=scnv_class,
+           output_dir = "~/Documents/uib/dev/toydata/single_viz",
+           dataset="SNGLE",
+           single = TRUE)
+```
