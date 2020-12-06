@@ -1,11 +1,11 @@
-#' SeeCiTe analysis of BAF and LRR in candidate offspring CNV regions in a trio
-#' @param input_data The input data table collated in "data" argument with readSiftInput for individual CNV and sample.
+#' Patial SeeCiTe analysis of BAF and LRR in candidate CNV regions for a single sample
+#' @param input_data The input data table from readSingle.
 #' @param cohen_dist A cutoff on Cohen distance between CNV and flank LRR value distributions. If cohen distance is equal or smaller that this cutoff the distributions are considered not different without further testing. Default is 3.
 #' @param sign_lrr_dist A cutoff of p-value at which difference between two individual's CNV LRR value distributions is set as significant, using Kernel density based global two-sample comparison test from ks package. Default is 0.01.
 #' @param sign_correct_baf A cutoff p-value at which one-sided wilcoxon test of the shift of CNV LRR distribution from zero is considered significant. Used as an additional evidence to correct status based on BAF values which is succeptible to errors when signal is noisy. Default is 0.01.
 #' @param percent_opposite A cutoff on percentage of probes that have LRR values in direction contradicting the suggested CNV type, eg positive for a del and negative for a dup. Default is 20.
 #'
-#' @return A data table with test results (p-values and classifications) as well as various summaries for CNV and flanking regions per trio and CNV
+#' @return A data table with test results (p-values and classifications) as well as various summaries for CNV and flanking regions per individual and CNV
 #'
 #' @examples
 analyzeSignalConcordanceSingle <- function(input_data, cohen_dist=3, sign_correct_baf=0.01, percent_opposite=20){

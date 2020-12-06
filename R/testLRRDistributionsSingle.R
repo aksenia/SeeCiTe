@@ -1,9 +1,9 @@
 #' Apply a row of statistical tests to LRR distribuions in CNV and flanking regions within a single individual
 #'
-#' @param my_lrr The input data table with LRR values in CNV and flanking regions collated with readInputs in "data" for each individual
+#' @param my_lrr The input data table with LRR values in CNV and flanking regions for each individual
 #' @param cohen_dist A cutoff on Cohen distance between CNV and flank LRR value distributions. If cohen distance is equal or smaller that this cutoff the distributions are considered not different without further testing. Default is 3.
 #'
-#' @return A data table with summaries and test results for LRR-based tests between the individuals (lrrtest) and between CNV and flank for each individual (flanktest).
+#' @return A data table with summaries and test results for LRR-based tests between CNV and flank for each individual (flanktest).
 #'
 #' @examples
 testLRRDistributionsSingle <- function(my_lrr, cohen_dist=3){

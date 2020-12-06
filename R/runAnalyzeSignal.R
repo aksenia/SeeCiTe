@@ -1,4 +1,4 @@
-#' A wrapper around analyzeSignalConcordance function to run for a cohort of trios
+#' A wrapper around analyzeSignalConcordance(Single) function to run for a cohort of trios (or singles)
 #'
 #' @param input_data The input data table ("data") collated with readInputs.
 #' @param args Global arguments for the dataset analysis run.

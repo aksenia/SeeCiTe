@@ -1,8 +1,7 @@
 #' Main function that uses prepared summary statistics to classify CNVs into categories
-#' @param analyzed_df Output of runAnalyzeSignal
-#' @param lrr_flank_pass A cutoff on the LRR_SD in flanking region that defines placement of putative de novo CNVs into Unlikely category for more detailed examination
-#'
-#' @return A data table with most useful statistics per individual in a trio and classification results for an offspring CNV
+#' @param analyzed_df Output of runAnalyzeSignal for a single sample mode
+#' @param lrr_flank_pass A cutoff on the LRR_SD in flanking region, default 0.3 in single mode
+#' @return A data table with most useful statistics and classification results per individual per CNV
 #' @export
 #' @examples
 classifySingles <- function(analyzed_df, lrr_flank_pass=0.3){

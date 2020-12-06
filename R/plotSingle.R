@@ -1,7 +1,7 @@
 #' Visualize local CNV SNP data and key summary statistics for a single individual
 #'
 #' @param input_data Data slot of an object read with readInputs, for a single CNV and individual
-#' @param sifted_data Output of runAnalyzeSignal for the input data
+#' @param sifted_data Output of runAnalyzeSignal for the input data in single mode
 #' @param print_title Print detailed summary statistics in a plot header. Default is TRUE.
 #' @return A ggplot2 plot object
 #' @export

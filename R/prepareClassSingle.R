@@ -1,6 +1,6 @@
 #' Prepare data summaries for final classifications, a helper function.
 #' Performs main steps to check support of CNV in a single sample data
-#' @param analyzed_df A dataframe processed with runAnalyseSignal
+#' @param analyzed_df A dataframe processed with runAnalyseSignal in single sample mode
 #'
 #' @return A data.table formatted for final classification with classifySingles
 #'

@@ -1,5 +1,5 @@
 #' SeeCiTe analysis of BAF and LRR in candidate offspring CNV regions in a trio
-#' @param input_data The input data table collated in "data" argument with readSiftInput for individual CNV and sample.
+#' @param input_data The input data table collated in "data" argument with readInput for individual CNV and sample.
 #' @param cohen_dist A cutoff on Cohen distance between CNV and flank LRR value distributions. If cohen distance is equal or smaller that this cutoff the distributions are considered not different without further testing. Default is 3.
 #' @param sign_lrr_dist A cutoff of p-value at which difference between two individual's CNV LRR value distributions is set as significant, using Kernel density based global two-sample comparison test from ks package. Default is 0.01.
 #' @param sign_correct_baf A cutoff p-value at which one-sided wilcoxon test of the shift of CNV LRR distribution from zero is considered significant. Used as an additional evidence to correct status based on BAF values which is succeptible to errors when signal is noisy. Default is 0.01.
