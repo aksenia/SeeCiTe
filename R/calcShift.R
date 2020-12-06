@@ -6,8 +6,13 @@
 #' @import ggplot2
 #'
 #' @examples
-calcShift <- function(lrr_dt){
-  # we are interested on the offspring locus
+calcShift <- function(lrr_dt, single=F){
+  # we are interested on the offspring locus for the trio
+  if (isTRUE(single)) {
+    str_title <- "individual"
+  } else {
+    str_title <- "O"
+  }
   adf <- lrr_dt %>%
     dplyr::filter(relation == "O") %>%
     dplyr::ungroup() %>%
@@ -37,13 +42,18 @@ calcShift <- function(lrr_dt){
     ggplot2::geom_hline(yintercept = 0, linetype="dashed")
 
     p <- p + ggplot2::coord_flip() +
-      ggplot2::ylab("CNV vs flanking loci in O") +
+      ggplot2::ylab(paste0("CNV vs flanking loci in ", str_title)) +
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 10),
           axis.title.y = ggplot2::element_text(size = 10))
   # deciles
   psf <- rogme::plot_sf(tsf, plot_theme = 2, symb_size = 1.5)
+  if (isTRUE(single)) {
+    psf <- rogme::add_sf_lab(psf, tsf,
+               y_lab_nudge = .1,
+               text_size = 3)
+  }
   psf <- psf[[1]] +
-    ggplot2::labs(x = paste(names(tsf)[1], "LRR deciles (O)"),
+    ggplot2::labs(x = paste(names(tsf)[1], paste0("LRR deciles (", str_title, ")")),
          y = paste("Diff deciles")) +
     ggplot2::theme(axis.title.x = element_text(size = 10),
           axis.title.y = element_text(size = 10))

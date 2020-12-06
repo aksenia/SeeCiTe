@@ -9,11 +9,12 @@
 #' @param mono_marker (TRUE/FALSE) If the array contains non-polymorphic markers with BAF>1, do not plot these. TRUE by default
 #' @param subset_nprobes Only plot the CNVs containing that many or more probes
 #' @param subset_length Only plot the CNVs of the given legth (in bp) or longer
+#' @param single Plot cohort of independent single samples
 #' @return
 #' @export
 #'
 #' @examples
-plotCohort <- function(main_data, sifted_data, classified_data, output_dir, dataset, mono_marker=T, subset_nprobes=NULL, subset_length=NULL){
+plotCohort <- function(main_data, sifted_data, classified_data, output_dir, dataset, mono_marker=T, subset_nprobes=NULL, subset_length=NULL, single=FALSE){
   ## create a folder for each file being visualized
   dir.create(output_dir, showWarnings = FALSE)
   data_calls <- main_data[["data"]]
@@ -74,11 +75,14 @@ plotCohort <- function(main_data, sifted_data, classified_data, output_dir, data
         }
         ssifted <- sifted_data %>%
           dplyr::filter(sample == s, coordcnv == cnv)
+        if (isTRUE(single)) {
+          plotSingle(input_data = sdfa, sifted_data = ssifted)
+        } else {
         plotRawTrio(input_data = sdfa, sifted_data = ssifted,
                       penn_qcsum = sqcsum,
                       mono_marker = mono_marker,
                       merge_trace=smerge)
-
+        }
       })
     })
     dev.off()

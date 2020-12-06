@@ -28,7 +28,7 @@ runAnalyzeSignal <- function(input_data, args, use_cache=FALSE, single=FALSE){
                           ## original data
                           sdfa <- dfa %>%
                             dplyr::filter(sample == s)
-                            if(single == TRUE){
+                            if(isTRUE(single)){
                               asdfa <- analyzeSignalConcordanceSingle(sdfa)
                             } else {
                               asdfa <- analyzeSignalConcordance(sdfa)
@@ -36,7 +36,9 @@ runAnalyzeSignal <- function(input_data, args, use_cache=FALSE, single=FALSE){
                             })
                         r <- do.call("rbind", ss)
                    }))
-  saveRDS(result, file=cache_fn)
+  if (!is.null(args)){
+    saveRDS(result, file=cache_fn)
+  }
   }
   result
 }

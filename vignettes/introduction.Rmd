@@ -28,12 +28,15 @@ packages <- c(generic_packages, plotting_packages, stat_packages)
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
+
+library(devtools)
+devtools::install_github('davetang/bedr')
+devtools::install_github("GRousselet/rogme")
 ```
 
-Then use devtools package to install directly from GitHub:
+Use devtools package to install directly from GitHub (by default it will force the upgrade of the installed packages, which might be undesirable, then set dependencies to FALSE):
 ```{r install, echo=TRUE, eval=FALSE}
-library(devtools)
-devtools::install_github("aksenia/SeeCiTe")
+devtools::install_github("aksenia/SeeCiTe", dep = FALSE)
 ```
 
 ## Step I. Preparing the input files.
@@ -152,4 +155,58 @@ Finally, the summary statistics and SeeCiTe classifications can be written out a
 writeSeecite(classified_data=cnv_class,
           output_dir = "~/Documents/uib/dev/toydata/affy6ceu_viz",
           dataset="affy6ceu")
+```
+
+## Credits
+
+If you use this package, please cite 
+"SeeCiTe: a method to assess CNV calls from SNP arrays using trio data", 
+Ksenia Lavrichenko, Øyvind Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson
+bioRxiv 2020.09.28.316372; doi: https://doi.org/10.1101/2020.09.28.316372
+
+## Bonus: single sample functionality
+
+The SeeCite core algorithm is based on comparison of intensity distributions between the individuals in a trio. However there is a number of individual-level metrics that can be useful out of trio context. We extended the tool functionality to process the single samples data and calculate these metrics. The adapted simplified plotting function is also available.
+
+First step is to extract the signal intensities with a helper script *extract_snp_single.py*, which takes as input PennCNV format and a sample map (one line per sample, comma-separated, "sampleid,path/to/lrrbaf_file"):
+```{r step-i-single, eval=FALSE, echo=TRUE}
+python3 extract_snp_single.py -c data/affy6hm.initial_merged.triocnv -m data/samples_map.txt -o data -d SNGL -f 30
+
+```
+
+The output file *data/SNGLE.signal_flanks_30.txt* (provided with the package sample data) will contain all the information needed for consequent steps: 
+
+```{r step-ii-single, eval=TRUE, echo=TRUE, warning=FALSE}
+single_file =  system.file("extdata", "SNGLE.signal_flanks_30.txt", package = "SeeCiTe")
+single_data <- readSingle(snp_file = single_file)
+head(single_data, n = 2)
+```
+
+
+```{r step-iii-single, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, fig.width=12, fig.height=5.5, fig.fullwidth=TRUE}
+
+sclu_baf <- runAnalyzeSignal(single_data, 
+                             args = list(cache_id="~/Documents/uib/dev/toydata",
+                                   dataset="SNGL"), 
+                             single = T,
+                             use_cache = T)
+scnv_class <- classifySingles(sclu_baf)
+
+Sample <- "affy6.shelf.NA12892"
+Cnv <- "chr1:72768418-72811148"
+plotSingle(input_data = single_data %>% dplyr::filter(sample==Sample, coordcnv==Cnv),
+           sifted_data = sclu_baf %>% dplyr::filter(sample==Sample, coordcnv==Cnv),
+           print_title = T)
+
+```
+
+To write out multiple plots: s
+```{r step-iv-single, eval=FALSE, echo=TRUE}
+plotCohort(main_data=list(data=single_data),
+           sifted_data=sclu_baf,
+           classified_data=scnv_class,
+           output_dir = "~/Documents/uib/dev/toydata/single_viz",
+           dataset="SNGLE",
+           single = TRUE)
+
 ```
