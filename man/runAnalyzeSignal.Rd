@@ -2,9 +2,9 @@
 % Please edit documentation in R/runAnalyzeSignal.R
 \name{runAnalyzeSignal}
 \alias{runAnalyzeSignal}
-\title{A wrapper around analyzeSignalConcordance function to run for a cohort of trios}
+\title{A wrapper around analyzeSignalConcordance(Single) function to run for a cohort of trios (or singles)}
 \usage{
-runAnalyzeSignal(input_data, args, use_cache = FALSE)
+runAnalyzeSignal(input_data, args, use_cache = FALSE, single = FALSE)
 }
 \arguments{
 \item{input_data}{The input data table ("data") collated with readInputs.}
@@ -12,10 +12,12 @@ runAnalyzeSignal(input_data, args, use_cache = FALSE)
 \item{args}{Global arguments for the dataset analysis run.}
 
 \item{use_cache}{Use pre-calculated object from previous runs which is written every time the function is run into the folder defined by "cache_id" in args. This analysis takes a while on a large dataset. If it is necessary to re-run from scratch set this argument to FALSE. Default is FALSE.}
+
+\item{single}{Use simplified single samples mode instead of a trio.}
 }
 \value{
 A data table with SeeCiTe preparation analysis for all trios and CNVs in the input.
 }
 \description{
-A wrapper around analyzeSignalConcordance function to run for a cohort of trios
+A wrapper around analyzeSignalConcordance(Single) function to run for a cohort of trios (or singles)
 }

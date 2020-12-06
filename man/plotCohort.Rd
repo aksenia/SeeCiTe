@@ -12,7 +12,8 @@ plotCohort(
   dataset,
   mono_marker = T,
   subset_nprobes = NULL,
-  subset_length = NULL
+  subset_length = NULL,
+  single = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ output of readInputs}
 \item{subset_nprobes}{Only plot the CNVs containing that many or more probes}
 
 \item{subset_length}{Only plot the CNVs of the given legth (in bp) or longer}
+
+\item{single}{Plot cohort of independent single samples}
 }
 \value{
 

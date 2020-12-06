@@ -4,7 +4,7 @@
 \alias{calcShift}
 \title{Create a decile plot and a scatter for CNV versus flanking region in an offspring. Uses rogme package.}
 \usage{
-calcShift(lrr_dt)
+calcShift(lrr_dt, single = F)
 }
 \arguments{
 \item{lrr_dt}{A data table with probe level LRR values for all individuals in a trio.}

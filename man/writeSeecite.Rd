@@ -4,7 +4,13 @@
 \alias{writeSeecite}
 \title{Write the CNV files with SeeCiTe assessment and all summary metrics in txt, plink and bed formats}
 \usage{
-writeSeecite(classified_data, output_dir, dataset)
+writeSeecite(
+  classified_data,
+  output_dir,
+  dataset,
+  subset_nprobes = NULL,
+  subset_length = NULL
+)
 }
 \arguments{
 \item{classified_data}{classified_data A table with final classifications, offspring-centered. Output of classifyTrios.}
@@ -12,6 +18,10 @@ writeSeecite(classified_data, output_dir, dataset)
 \item{output_dir}{output_dir Folder in which to write the files.}
 
 \item{dataset}{dataset Dataset string to use in file naming.}
+
+\item{subset_nprobes}{Only output the CNVs containing that many or more probes}
+
+\item{subset_length}{Only output the CNVs of the given legth (in bp) or longer}
 }
 \value{
 No value returned. Writes files into a given folder.

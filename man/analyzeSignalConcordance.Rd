@@ -13,7 +13,7 @@ analyzeSignalConcordance(
 )
 }
 \arguments{
-\item{input_data}{The input data table collated in "data" argument with readSiftInput for individual CNV and sample.}
+\item{input_data}{The input data table collated in "data" argument with readInput for individual CNV and sample.}
 
 \item{cohen_dist}{A cutoff on Cohen distance between CNV and flank LRR value distributions. If cohen distance is equal or smaller that this cutoff the distributions are considered not different without further testing. Default is 3.}
 
