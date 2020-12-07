@@ -5,31 +5,18 @@ Authors@R: person("Ksenia", "Lavrichenko", email = "ksenia.lavrichenko@gmail.com
 Description: False Positives and low quality CNV calls plague many of the array-based datasets. 
   Using the raw signal data and a CNV call file (made with PennCNV trio), 
   this package assesses the quality of calls made. In addition it allows to visualize calls in an informed way.
-Depends:
-  R (>= 3.4.3)
+Depends: R (>= 3.4.3), ggplot2
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: magrittr,
-    dplyr,
-    tidyr,
-    tools,
-    purrr,
-    utils,
-    bedr,
-    rlang,
-    ggplot2,
-    ggpubr,
-    scales,
-    gridExtra,
-    cowplot,
-    outliers,
-    effsize,
-    lawstat,
-    statip,
-    ks,
-    rogme
+Imports: magrittr, dplyr, tidyr, tools, purrr, utils, bedr, rlang,
+        ggplot2, ggpubr, scales, gridExtra, cowplot, outliers, effsize,
+        lawstat, statip, ks, rogme
 Suggests: knitr, rmarkdown, rogme
 Additional_repositories: https://github.com/GRousselet/rogme
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
+NeedsCompilation: no
+Packaged: 2020-12-06 16:12:02 UTC; alpaca
+Author: Ksenia Lavrichenko [aut, cre]
+Maintainer: Ksenia Lavrichenko <ksenia.lavrichenko@gmail.com>
