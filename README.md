@@ -1,9 +1,14 @@
 SeeCiTe: Seeing CNVs in Trios
 -----------------------------
 
+SeeCiTe is a novel CNV quality control tool that post-processes output from current CNV calling tools exploiting child-parent trio data to classify calls in quality categories and provide a set of visualizations for each putative CNV call in the offspring. It utilizes probe-level CNV data in trios (and singletons) to systematically highlight potential artefacts and visualize signal intensities in a streamlined fashion suitable for biobank scale studies.
+
 This vignette describes all steps necessary to run SeeCiTe analysis,
 using the public HapMap trio data, with intermidiate outputs supplied
-with the package.
+with the package for the:
+
+- trio data (#Step-I-.-Preparing-the-input-files)
+- singleton data (#Single-sample-functionality)
 
 Installation.
 -------------
@@ -33,7 +38,7 @@ then set dependencies to FALSE):
 devtools::install_github("aksenia/SeeCiTe", dep = FALSE)
 ```
 
-Step I. Preparing the input files.
+Step I. Preparing the input files
 ----------------------------------
 
 The preparation step takes in 1) an original PennCNV-trio output
@@ -233,16 +238,8 @@ writeSeecite(classified_data=cnv_class,
           dataset="affy6ceu")
 ```
 
-Credits
--------
 
-If you use this package, please cite “SeeCiTe: a method to assess CNV
-calls from SNP arrays using trio data”, Ksenia Lavrichenko, Øyvind
-Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson bioRxiv
-2020.09.28.316372; doi:
-<a href="https://doi.org/10.1101/2020.09.28.316372" class="uri">https://doi.org/10.1101/2020.09.28.316372</a>
-
-Bonus: single sample functionality
+Single sample functionality
 ----------------------------------
 
 The SeeCite core algorithm is based on comparison of intensity
@@ -281,10 +278,10 @@ head(single_data, n = 2)
 
 sclu_baf <- runAnalyzeSignal(single_data, 
                              args = list(cache_id="~/Documents/uib/dev/toydata",
-                                   dataset="SNGL"), 
+                                   dataset="SNGLE"), 
                              single = T,
                              use_cache = T)
-# [1] "Found cached file ~/Documents/uib/dev/toydata/SNGL_clu_baf.rds, reading in"
+# [1] "Found cached file ~/Documents/uib/dev/toydata/SNGLE_clu_baf.rds, reading in"
 scnv_class <- classifySingles(sclu_baf)
 
 Sample <- "affy6.shelf.NA12892"
@@ -296,7 +293,7 @@ plotSingle(input_data = single_data %>% dplyr::filter(sample==Sample, coordcnv==
 
 ![](man/figures/step-iii-single-1.png)
 
-To write out multiple plots: s
+To write out multiple plots: 
 
 ``` r
 plotCohort(main_data=list(data=single_data),
@@ -306,3 +303,12 @@ plotCohort(main_data=list(data=single_data),
            dataset="SNGLE",
            single = TRUE)
 ```
+
+Credits
+-------
+
+If you use this package, please cite “SeeCiTe: a method to assess CNV
+calls from SNP arrays using trio data”, Ksenia Lavrichenko, Øyvind
+Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson bioRxiv
+2020.09.28.316372; doi:
+<a href="https://doi.org/10.1101/2020.09.28.316372" class="uri">https://doi.org/10.1101/2020.09.28.316372</a>
