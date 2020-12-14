@@ -7,8 +7,8 @@ This vignette describes all steps necessary to run SeeCiTe analysis,
 using the public HapMap trio data, with intermidiate outputs supplied
 with the package for the:
 
-- trio data (#step-I-Preparing-the-input-files)
-- singleton data (#single-sample-functionality)
+- [trio data](#step-I-Preparing-the-input-files)
+- [singleton data](#single-sample-functionality)
 
 Installation.
 -------------
