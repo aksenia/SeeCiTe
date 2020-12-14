@@ -7,8 +7,8 @@ This vignette describes all steps necessary to run SeeCiTe analysis,
 using the public HapMap trio data, with intermidiate outputs supplied
 with the package for the:
 
-- [trio data](#step-I-Preparing-the-input-files)
-- [singleton data](#single-sample-functionality)
+- [Trio design](#step-I-Preparing-the-input-files)
+- [Singleton design](#single-sample-functionality)
 
 Installation.
 -------------
@@ -239,7 +239,7 @@ writeSeecite(classified_data=cnv_class,
 ```
 
 
-[Single sample functionality]
+Single sample functionality
 ----------------------------------
 
 The SeeCite core algorithm is based on comparison of intensity
