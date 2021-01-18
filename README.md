@@ -309,6 +309,5 @@ Credits
 
 If you use this package, please cite “SeeCiTe: a method to assess CNV
 calls from SNP arrays using trio data”, Ksenia Lavrichenko, Øyvind
-Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson bioRxiv
-2020.09.28.316372; doi:
-<a href="https://doi.org/10.1101/2020.09.28.316372" class="uri">https://doi.org/10.1101/2020.09.28.316372</a>
+Helgeland, Pål R Njølstad, Inge Jonassen, Stefan Johansson Bioinformatics, btab028, doi:
+<a href="https://doi.org/10.1093/bioinformatics/btab028" class="uri">https://doi.org/10.1093/bioinformatics/btab028</a>
